@@ -29,12 +29,12 @@ const port = process.env.PORT || 8080
 
 async function main() {
     try {
-        const connectionInstance = await mongoose.connect(
+        await mongoose.connect(
             `${process.env.MONGODB_URL}/book-app`
         )
 
         console.log(
-            `\n MongoDB connected !!\n Database Name: ${connectionInstance.connection.name}\n Host: ${connectionInstance.connection.host}\n Port: ${connectionInstance.connection.port}\n`
+            'MongoDB connected !!'
         )
 
         if (process.env.NODE_ENV !== 'production') {
@@ -53,3 +53,6 @@ async function main() {
 }
 
 main()
+
+
+export default app;
