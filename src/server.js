@@ -32,14 +32,19 @@ async function main() {
         // await mongoose.connect(
         //     `${process.env.MONGODB_URL}`
         // )
+        await mongoose.connect(
+            process.env.MONGODB_URL
+        );
 
         // console.log(
         //     'MongoDB connected !!'
         // )
 
-        app.listen(port, () => {
-            console.log(`Example app listening on port: ${port}`)
-        })
+        if (process.env.NODE_ENV !== 'production') {
+            app.listen(process.env.PORT || 3000, () => {
+                console.log(`Server running locally on port: ${port}`)
+            })
+        }
 
     } catch (error) {
         console.log('MongoDB connected Error: ', error)
