@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import BookModel from './app/models/book.model.js';
+import { dbConnect } from './lib/db.js'
 
 // Load environment variables
 dotenv.config();
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 
 app.get('/api/books', async (req, res) => {
     try {
+        await dbConnect(process.env.MONGODB_URL);
         const data = await BookModel.find()
         res.status(200).json(data);
     } catch (error) {
@@ -29,16 +31,6 @@ const port = process.env.PORT || 8080
 
 async function main() {
     try {
-        // await mongoose.connect(
-        //     `${process.env.MONGODB_URL}`
-        // )
-        await mongoose.connect(
-            process.env.MONGODB_URL
-        );
-
-        // console.log(
-        //     'MongoDB connected !!'
-        // )
 
         if (process.env.NODE_ENV !== 'production') {
             app.listen(process.env.PORT || 3000, () => {
