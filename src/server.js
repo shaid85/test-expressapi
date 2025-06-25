@@ -29,13 +29,13 @@ const port = process.env.PORT || 8080
 
 async function main() {
     try {
-        await mongoose.connect(
-            `${process.env.MONGODB_URL}`
-        )
+        // await mongoose.connect(
+        //     `${process.env.MONGODB_URL}`
+        // )
 
-        console.log(
-            'MongoDB connected !!'
-        )
+        // console.log(
+        //     'MongoDB connected !!'
+        // )
 
         app.listen(port, () => {
             console.log(`Example app listening on port: ${port}`)
