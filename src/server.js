@@ -30,22 +30,17 @@ const port = process.env.PORT || 8080
 async function main() {
     try {
         await mongoose.connect(
-            `${process.env.MONGODB_URL}/book-app`
+            `${process.env.MONGODB_URL}`
         )
 
         console.log(
             'MongoDB connected !!'
         )
 
-        if (process.env.NODE_ENV !== 'production') {
-            app.listen(process.env.PORT || 3000, () => {
-                console.log(`Server running locally on port: ${port}`)
-            })
-        }
+        app.listen(port, () => {
+            console.log(`Example app listening on port: ${port}`)
+        })
 
-        // app.listen(port, () => {
-        //   console.log(`Example app listening on port: ${port}`)
-        // })
     } catch (error) {
         console.log('MongoDB connected Error: ', error)
         process.exit(1)
@@ -53,6 +48,3 @@ async function main() {
 }
 
 main()
-
-
-export default app;
