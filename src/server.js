@@ -1,6 +1,8 @@
 // Server.js : - server handle like - server start, close, error handle etc.
 import express from 'express';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import BookModel from './app/models/book.model.js';
 
 // Load environment variables
 dotenv.config();
@@ -12,8 +14,42 @@ app.get('/', (req, res) => {
     res.send('Welcome to - My Library Management System!')
 })
 
+app.get('/api/books', async (req, res) => {
+    try {
+        const data = await BookModel.find()
+        res.status(200).json(data);
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+
+    }
+})
+
 const port = process.env.PORT || 8080
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)
-})
+async function main() {
+    try {
+        const connectionInstance = await mongoose.connect(
+            `${process.env.MONGODB_URL}/book-app`
+        )
+
+        console.log(
+            `\n MongoDB connected !!\n Database Name: ${connectionInstance.connection.name}\n Host: ${connectionInstance.connection.host}\n Port: ${connectionInstance.connection.port}\n`
+        )
+
+        if (process.env.NODE_ENV !== 'production') {
+            app.listen(process.env.PORT || 3000, () => {
+                console.log(`Server running locally on port: ${port}`)
+            })
+        }
+
+        // app.listen(port, () => {
+        //   console.log(`Example app listening on port: ${port}`)
+        // })
+    } catch (error) {
+        console.log('MongoDB connected Error: ', error)
+        process.exit(1)
+    }
+}
+
+main()
