@@ -4,7 +4,7 @@ let cached = global.mongoose;   // reuse in hot reload / serverless
 if (!cached) cached = global.mongoose = { conn: null, promise: null };
 
 export async function dbConnect(uri) {
-    if (cached.conn) return cached.conn;          // already connected
+    if (cached.conn) return cached.conn;
     if (!cached.promise) {
         cached.promise = mongoose
             .connect(uri, {

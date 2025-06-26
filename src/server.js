@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 
 app.get('/api/books', async (req, res) => {
     try {
-        await dbConnect(process.env.MONGODB_URL);
+        // await dbConnect(process.env.MONGODB_URL);
         const data = await BookModel.find()
         res.status(200).json(data);
     } catch (error) {
@@ -31,6 +31,9 @@ const port = process.env.PORT || 8080
 
 async function main() {
     try {
+        const connectionInstance = await mongoose.connect(
+            `${process.env.MONGODB_URL}/book-app`
+        )
 
         if (process.env.NODE_ENV !== 'production') {
             app.listen(process.env.PORT || 3000, () => {
@@ -47,4 +50,3 @@ async function main() {
 main()
 
 
-export default app
